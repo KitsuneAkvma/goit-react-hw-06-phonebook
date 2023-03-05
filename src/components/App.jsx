@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import GlobalStyle from '../themes/GlobalStyles.styled';
 import { Container } from './Container/Container.styled';
@@ -14,6 +14,9 @@ export const App = () => {
   const dispatch = useDispatch();
   const contacts = useSelector(getContacts);
   const filter = useSelector(getFilter);
+  useEffect(() => {
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -31,8 +34,6 @@ export const App = () => {
     }
 
     dispatch(addContact(name, number));
-
-    localStorage.setItem('contacts', JSON.stringify(contacts));
 
     form.reset();
   };
@@ -52,8 +53,6 @@ export const App = () => {
 
     dispatch(deleteContact(id));
     console.log(id);
-
-    localStorage.setItem('contacts', JSON.stringify(contacts));
   };
 
   return (
