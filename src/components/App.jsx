@@ -1,14 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import shortid from 'shortid';
+import React from 'react';
 
 import GlobalStyle from '../themes/GlobalStyles.styled';
 import { Container } from './Container/Container.styled';
 import { ContactCreationForm } from './ContactCreationForm/ContactCreationForm';
 import { ContactsList } from './ContactsList/ContactsList';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { addContact, deleteContact } from 'redux/contactsSlice';
+import { findContact } from 'redux/filterSlice';
+import { getContacts, getFilter } from 'redux/selectors';
 
 export const App = () => {
-  const [contacts, setContacts] = useState([]);
-  const [filter, setFilter] = useState('');
+  const dispatch = useDispatch();
+  const contacts = useSelector(getContacts);
+  const filter = useSelector(getFilter);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -24,13 +29,10 @@ export const App = () => {
     ) {
       return alert(`Contact "${name}" is already on the list`);
     }
-    const newContactsList = [
-      { id: shortid.generate(), name: name, number: number },
-      ...contacts,
-    ];
-    setContacts(newContactsList);
 
-    localStorage.setItem('contacts', JSON.stringify(newContactsList));
+    dispatch(addContact(name, number));
+
+    localStorage.setItem('contacts', JSON.stringify(contacts));
 
     form.reset();
   };
@@ -40,23 +42,19 @@ export const App = () => {
   const handleSearch = e => {
     const input = e.currentTarget;
 
-    setFilter(input.value);
+    dispatch(findContact(input.value));
+    console.log(`Searching... ${filter}`);
   };
 
   const handleRemoveContact = e => {
     e.preventDefault();
+    const id = e.currentTarget.id;
 
-    const newContactsList = contacts.filter(
-      contact => contact.id !== e.currentTarget.id
-    );
-    setContacts(newContactsList);
+    dispatch(deleteContact(id));
+    console.log(id);
 
-    localStorage.setItem('contacts', JSON.stringify(newContactsList));
+    localStorage.setItem('contacts', JSON.stringify(contacts));
   };
-
-  useEffect(() => {
-    setContacts(JSON.parse(localStorage.getItem('contacts')));
-  }, []);
 
   return (
     <>

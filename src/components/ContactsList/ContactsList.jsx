@@ -4,13 +4,11 @@ import PropTypes from 'prop-types';
 import { StyledContactsList } from './ContactsList.styled';
 
 export const ContactsList = props => {
-  const {contacts, filter, onSearch, onRemove} = props;
+  const { contacts, filter, onSearch, onRemove } = props;
   return (
     <StyledContactsList>
       <h2>Contacts</h2>
-      {contacts.length === 0 ? (
-        <p></p>
-      ) : (
+      {contacts.length === 0 ? null : (
         <input
           type="text"
           name="filter"
