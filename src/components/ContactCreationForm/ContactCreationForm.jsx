@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+
 
 import { StyledForm } from './ContactCreationForm.styled';
 import { useDispatch, useSelector } from 'react-redux';
@@ -56,6 +56,3 @@ export const ContactCreationForm = () => {
   );
 };
 
-ContactCreationForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};
