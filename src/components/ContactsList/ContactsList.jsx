@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+
 
 import { StyledContactsList } from './ContactsList.styled';
 import { useDispatch, useSelector } from 'react-redux';
@@ -71,9 +71,3 @@ export const ContactsList = () => {
   );
 };
 
-ContactsList.propTypes = {
-  contacts: PropTypes.array,
-  filter: PropTypes.string,
-  onSearch: PropTypes.func,
-  onRemove: PropTypes.func,
-};
