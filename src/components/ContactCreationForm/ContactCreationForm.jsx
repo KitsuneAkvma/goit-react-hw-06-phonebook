@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getContacts } from 'redux/selectors';
 import { addContact } from 'redux/contactsSlice';
 
-export const ContactCreationForm = props => {
+export const ContactCreationForm = () => {
   const dispatch = useDispatch();
   const contacts = useSelector(getContacts);
 

@@ -7,8 +7,7 @@ import { getContacts, getFilter } from 'redux/selectors';
 import { deleteContact } from 'redux/contactsSlice';
 import { findContact } from 'redux/filterSlice';
 
-export const ContactsList = props => {
-
+export const ContactsList = () => {
   const dispatch = useDispatch();
   const contacts = useSelector(getContacts);
   const filter = useSelector(getFilter);
@@ -17,7 +16,6 @@ export const ContactsList = props => {
     const input = e.currentTarget;
 
     dispatch(findContact(input.value));
-    console.log(`Searching... ${filter}`);
   };
 
   const handleRemoveContact = e => {
@@ -25,7 +23,6 @@ export const ContactsList = props => {
     const id = e.currentTarget.id;
 
     dispatch(deleteContact(id));
-    console.log(id);
   };
 
   return (
