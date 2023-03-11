@@ -2,9 +2,32 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { StyledContactsList } from './ContactsList.styled';
+import { useDispatch, useSelector } from 'react-redux';
+import { getContacts, getFilter } from 'redux/selectors';
+import { deleteContact } from 'redux/contactsSlice';
+import { findContact } from 'redux/filterSlice';
 
 export const ContactsList = props => {
-  const { contacts, filter, onSearch, onRemove } = props;
+
+  const dispatch = useDispatch();
+  const contacts = useSelector(getContacts);
+  const filter = useSelector(getFilter);
+
+  const handleSearch = e => {
+    const input = e.currentTarget;
+
+    dispatch(findContact(input.value));
+    console.log(`Searching... ${filter}`);
+  };
+
+  const handleRemoveContact = e => {
+    e.preventDefault();
+    const id = e.currentTarget.id;
+
+    dispatch(deleteContact(id));
+    console.log(id);
+  };
+
   return (
     <StyledContactsList>
       <h2>Contacts</h2>
@@ -12,7 +35,7 @@ export const ContactsList = props => {
         <input
           type="text"
           name="filter"
-          onChange={onSearch}
+          onChange={handleSearch}
           placeholder="Search for contacts..."
         />
       )}
@@ -37,7 +60,7 @@ export const ContactsList = props => {
                   </div>
                   <button
                     className="removeContact"
-                    onClick={onRemove}
+                    onClick={handleRemoveContact}
                     id={contact.id}
                   >
                     ✖

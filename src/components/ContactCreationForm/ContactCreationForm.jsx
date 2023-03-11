@@ -2,11 +2,36 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { StyledForm } from './ContactCreationForm.styled';
+import { useDispatch, useSelector } from 'react-redux';
+import { getContacts } from 'redux/selectors';
+import { addContact } from 'redux/contactsSlice';
 
 export const ContactCreationForm = props => {
-  const { onSubmit } = props;
+  const dispatch = useDispatch();
+  const contacts = useSelector(getContacts);
+
+  const handleSubmit = e => {
+    e.preventDefault();
+
+    const form = e.currentTarget;
+    const name = form.elements.name.value;
+    const number = form.elements.number.value;
+
+    if (
+      contacts.filter(
+        contact => contact.name.toLowerCase() === name.toLowerCase()
+      ).length >= 1
+    ) {
+      return alert(`Contact "${name}" is already on the list`);
+    }
+
+    dispatch(addContact(name, number));
+
+    form.reset();
+  };
+
   return (
-    <StyledForm onSubmit={onSubmit}>
+    <StyledForm onSubmit={handleSubmit}>
       <h1>Phonebook</h1>
       <h3>Name:</h3>
       <input
